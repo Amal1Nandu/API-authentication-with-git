@@ -8,7 +8,7 @@ const API_URL = "https://secrets-api.appbrewery.com/";
 //TODO 1: Fill in your values for the 3 types of auth.
 const yourUsername = "amal";
 const yourPassword = "kaTTachira";
-const yourAPIKey = "";
+const yourAPIKey = "4ad8e689-da30-4261-b897-e8fc22f5164c";
 const yourBearerToken = "";
 
 app.get("/", (req, res) => {
@@ -61,7 +61,20 @@ app.get("/basicAuth", async (req, res) => {
   */
 });
 
-app.get("/apiKey", (req, res) => {
+app.get("/apiKey", async(req, res) => {
+      try {
+        const response = await axios.get(
+            "https://secrets-api.appbrewery.com/filter?score=6&apiKey=4ad8e689-da30-4261-b897-e8fc22f5164c"
+           
+        );//param
+        const result = JSON.stringify(response.data);
+        res.render("index.ejs", { content: result });
+    } catch (error) {
+        console.error("Failed to make request:", error.message);
+        res.render("index.ejs", {
+            error: error.message,
+        });
+    }
     //TODO 4: Write your code here to hit up the /filter endpoint
     //Filter for all secrets with an embarassment score of 5 or greater
     //HINT: You need to provide a query parameter of apiKey in the request.
